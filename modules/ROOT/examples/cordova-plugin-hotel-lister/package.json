@@ -1,0 +1,19 @@
+{
+  "name": "cordova-plugin-hotel-lister",
+  "version": "0.0.1",
+  "description": "A Cordova plugin for the Hotel Lister app.",
+  "cordova": {
+    "id": "cordova-plugin-hotel-lister",
+    "platforms": [
+      "android"
+    ]
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Couchbase <mobile@couchbase.com>",
+  "license": "Couchbase CE / https://www.couchbase.com/binaries/content/assets/website/legal/ce-license-agreement.pdf"
+}
