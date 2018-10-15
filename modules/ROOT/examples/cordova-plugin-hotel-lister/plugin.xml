@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-hotel-lister" version="0.0.1">
+  <name>cordova-plugin-hotel-lister</name>
+  <description>An Cordova plugin for the Hotel Lister application to implement data persistence using Couchbase Lite.</description>
+  <license>Couchbase CE / https://www.couchbase.com/binaries/content/assets/website/legal/ce-license-agreement.pdf</license>
+  
+  <engines>
+    <engine name="cordova" version=">=3.0.0"/>
+  </engines>
+  
+  <js-module src="www/hotel-lister.js" name="HotelLister">
+    <clobbers target="window.plugins.HotelLister" />
+  </js-module>
+  
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="HotelLister">
+        <param name="android-package" value="com.hotellister.HotelLister"/>
+      </feature>
+    </config-file>
+  
+    <source-file
+            src="src/android/DatabaseManager.java"
+            target-dir="src/com/hotellister/" />
+    <source-file
+            src="src/android/HotelLister.java"
+            target-dir="src/com/hotellister/" />
+    <source-file
+            src="src/android/Utils.java"
+            target-dir="src/com/hotellister/" />
+  </platform>
+</plugin>
