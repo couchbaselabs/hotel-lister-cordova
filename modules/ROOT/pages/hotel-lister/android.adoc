@@ -1,0 +1,177 @@
+= Build an Ionic Plugin with Couchbase Lite on iOS
+:plugin: {examplesdir}/cordova-hotel-finder-native/plugin.xml
+:hotelfinderplugin: {examplesdir}/cordova-hotel-finder-native/www/hotelfinderplugin.js
+:hotelfinderjava: {examplesdir}/cordova-hotel-finder-native/src/android/HotelFinderPlugin.java
+:package-json: {examplesdir}/cordova-hotel-finder-native/package.json
+:databasemanager-java: {examplesdir}/HotelFinder-Ionic/platforms/android/app/src/main/java/com/hotelfinder/DatabaseManager.java
+:hotelfinderjava-platform: {examplesdir}/HotelFinder-Ionic/platforms/android/app/src/main/java/com/hotelfinder/HotelFinderPlugin.java
+:home-ts: {examplesdir}/HotelFinder-Ionic/src/pages/home/home.ts
+
+Tracking /platforms blog: https://ionic.zone/fastlane/put-platforms-under-version-control
+
+A plugin is a package of injected code that allows the Cordova webview within which the app renders to communicate with the native platform on which it runs. Plugins provide access to device and platform functionality that is ordinarily unavailable to web-based apps.
+
+To begin, you need to open the starter project.
+
+== Getting Started
+
+*The User Interface has already been implemented in the starter project.
+You will add the code to persist and query data.*
+
+. Download the link:{attachmentsdir}/starter-project.zip[starter project].
+. Unzip *starter-project.zip*.
+. Open the *starter-project/HotelFinder-Ionic/* directory in the JavaScript editor of your choice (for example, https://code.visualstudio.com/[Visual Studio Code] or https://www.jetbrains.com/webstorm/[WebStorm]).
+. The User Interface code is located in *src/pages/home/*.
+. Run the following commands in your Terminal.
++
+[source,bash]
+----
+npm install -g ionic cordova
+cd HotelFinder-Ionic
+npm install <1>
+----
+<1> The `npm install` command installs dependencies.
+. To deploy the app on an Android emulator, run the following.
++
+[source,bash]
+----
+ionic cordova run android
+----
+NOTE: If you get the following error message "Could not find an installed version of Gradle either in Android Studio, or on your system to install the gradle wrapper." you can install Gradle using Homebrew with `brew install gradle`.
+. You can click on the *Hotels* button to run a search query.
+The result of the query will be empty.
+
+In the next section, you will setup the Cordova plugin which is the first step for establishing communication between native code and JavaScript.
+
+== Cordova Plugin Setup
+
+With https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugins], you can write native code and have access to it from JavaScript.
+It is helpful when an app needs access to native APIs.
+
+In this section you will create a new plugin called *cordova-hotel-finder-native* to implement data persistence using Couchbase Lite's Java API.
+
+. Create a folder named *cordova-hotel-finder-native* alongside the *HotelFinder-Ionic* folder.
+. Create a new file at *cordova-hotel-finder-native/plugin.xml* with the following.
++
+[source,xml]
+----
+include::{plugin}[indent=0]
+----
+* The `id="cordova-hotel-finder-native"` is the plugin name which will be used later to import it in your HotelFinder-Ionic project.
+. Create a new file at *cordova-hotel-finder-native/package.json* with the following.
++
+[source,javascript]
+----
+include::{package-json}[indent=0]
+----
+. Create a new file at *cordova-hotel-finder-native/www/hotelfinderplugin.js*.
+This file dictates the API by which a Cordova project may interact with this plugin.
+Generally, this means that the plugin binds to the window element and by doing so, grants access to its parent project through simple JavaScript references. Add the following to your *hotelfinderplugin.js* file:
++
+[source,javascript]
+----
+include::{hotelfinderplugin}[indent=0]
+----
+. In your plugin directory, create a new file at *src/android/HotelFinderPlugin.java* with the following.
++
+[source,java]
+----
+include::{hotelfinderjava}[indent=0]
+----
+. To verify that your plugin is ready to work as expected, you have to install it in your *HotelFinder-ionic* project.
+To do so, run the following commands.
++
+[source,bash]
+----
+cd HotelFinder-Ionic
+cordova plugin add ../cordova-hotel-finder-native/
+----
+
+== Couchbase Lite Setup
+
+. Add the following in the `dependencies` section of the application’s *build.gradle* (the one in the *app* folder).
++
+[source,java]
+----
+implementation 'com.couchbase.lite:couchbase-lite-android:2.1.0'
+----
+
+== Database Setup
+
+In our example, we will start with a pre-built Couchbase Lite database that contains a bunch of hotel documents.
+We will make our queries against the documents in this database.
+Note that in a real world application, the data could be synced down from other Couchbase Lite clients or from Sync Gateway in the cloud.
+
+The pre-built database needs to be added to the Android Studio project.
+
+. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over to *android/app/src/main/assets/*.
+. You will use the singleton pattern to setup the database instance.
+Create a new file named *DatabaseManager.java* and insert the following.
++
+In this code, you first check if a database named "travel-sample" exists.
+If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
+The database is then opened and the instance is set.
+The `createIndex` method creates the Full-Text Search index on the `description` property.
++
+[source,java]
+----
+include::{databasemanager-java}[tag=setup-database,indent=0]
+----
+. Next, add the following properties in *HotelFinderPlugin.java*.
++
+[source,java]
+----
+private Database database;
+----
+. Finally, update the `initialize` method in *HotelFinderPlugin.java* with the following.
++
+[source,java]
+----
+include::{hotelfinderjava-platform}[tag=initialize,indent=0]
+----
+This code adds the database as an instance property on the `HotelFinderNative` class.
+. Build the project. Confirm that it builds successfully.
+
+In the next sections, you will use this instance variable to query hotels from the pre-built database.
+
+== Listing Hotels
+
+In this section, you will add the functionality to list hotels from the database.
+
+. Insert a new method called `queryHotels` in *HotelFinderPlugin.java*.
++
+[source,java]
+----
+include::{hotelfinderjava-platform}[tag=query-hotels,indent=0]
+----
+To query bookmark documents, you will write a JOIN query between the document of type `bookmarkedhotels` which contains hotel Ids and documents of type `hotels` which contain all the other fields (`name`, `address`, `phone` etc.)
+. Call this method from the `execute` method in *HotelFinderPlugin.java*.
++
+[source,java]
+----
+include::{hotelfinderjava-platform}[tag=execute,indent=0]
+----
+. On the JavaScript side, you must first import the `HotelFinderNative` ReactNative module.
+Add the following to the top of *home.ts*.
++
+[source,javascript]
+----
+declare var window: any;
+----
+. You can now call the `queryBookmarkDocuments` native method from *Bookmarks.js*. Add the following text to the `constructor` method in *home.ts*.
++
+[source,javascript]
+----
+include::{home-ts}[tag=query-hotels,indent=0]
+----
+. Build and run.
+. You should now see the list of hotels.
++
+image::ionic-listing-hotels.png[,350px]
+
+== Conclusion
+
+*Well done!* You have learned how to import Couchbase Lite in an Ionic project, and how to add search and persistence functionalities to your application!
+
+You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file. To build and run the final project, follow the instructions outlined in the *Getting Started* section.
+The final project also implements the missing functionalities mentioned above.
