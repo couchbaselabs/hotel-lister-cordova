@@ -9,7 +9,7 @@
 
 In this tutorial, you will learn how to use Couchbase Lite in a Cordova project.
 
-The sample project is an application that allows users to list hotels stored in a Couchbase Lite database.
+The sample project is an application that allows users to display a list of hotels stored in a Couchbase Lite database.
 
 image::android_flow.jpg[]
 
@@ -21,7 +21,7 @@ The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Co
 
 This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native Android framework for data management.
 
-image::arch-android.jpg[]
+image::arch-android.jpg[,400]
 
 == Data Model
 
