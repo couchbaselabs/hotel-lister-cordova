@@ -7,11 +7,38 @@
 :hotelfinderjava-platform: {examplesdir}/HotelFinder-Ionic/platforms/android/app/src/main/java/com/hotelfinder/HotelFinderPlugin.java
 :home-ts: {examplesdir}/HotelFinder-Ionic/src/pages/home/home.ts
 
-Tracking /platforms blog: https://ionic.zone/fastlane/put-platforms-under-version-control
+In this tutorial, you will learn how to use Couchbase Lite in a Cordova project.
 
-A plugin is a package of injected code that allows the Cordova webview within which the app renders to communicate with the native platform on which it runs. Plugins provide access to device and platform functionality that is ordinarily unavailable to web-based apps.
+The sample project is an application that allows users to list hotels stored in a Couchbase Lite database.
 
-To begin, you need to open the starter project.
+image::android_flow.jpg[]
+
+== Architecture
+
+The user Interface is written in JavaScript while the business logic and data model is written in native Java.
+The data model uses Couchbase Lite as the embedded data persistence layer.
+The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript layer and the native Java layer.
+
+This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native Android framework for data management.
+
+image::arch-android.jpg[]
+
+== Data Model
+
+The data model for the app is very straightforward.
+There is one type of documents:
+the _"hotel"_ document which contains the details of each hotel.
+Those documents have `"type": "hotel"` property.
+
+== Pre-requisites
+
+This tutorial requires the following components and versions to run successfully.
+
+* Android Studio 3.0 or above
+* Android SDK 19 or above
+* Couchbase Lite 2.1.1
+
+The tutorial also assumes that the reader has a basic understanding of developing apps with Cordova and Java.
 
 == Getting Started
 
@@ -46,7 +73,7 @@ In the next section, you will setup the Cordova plugin which is the first step f
 == Cordova Plugin Setup
 
 With https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugins], you can write native code and have access to it from JavaScript.
-It is helpful when an app needs access to native APIs.
+Plugins provide access to device and platform functionality that is ordinarily unavailable to web-based apps.
 
 In this section you will create a new plugin called *cordova-hotel-finder-native* to implement data persistence using Couchbase Lite's Java API.
 
