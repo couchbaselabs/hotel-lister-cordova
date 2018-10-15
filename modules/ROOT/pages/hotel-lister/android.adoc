@@ -54,7 +54,7 @@ You will add the code to persist and query data.*
 [source,bash]
 ----
 npm install -g ionic cordova
-cd HotelFinder-Ionic
+cd HotelLister
 npm install <1>
 ----
 <1> The `npm install` command installs dependencies.
@@ -75,43 +75,44 @@ In the next section, you will setup the Cordova plugin which is the first step f
 With https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugins], you can write native code and have access to it from JavaScript.
 Plugins provide access to device and platform functionality that is ordinarily unavailable to web-based apps.
 
-In this section you will create a new plugin called *cordova-hotel-finder-native* to implement data persistence using Couchbase Lite's Java API.
+In this section you will create a new plugin called *cordova-plugin-hotel-lister* to implement data persistence using Couchbase Lite's Java API.
 
-. Create a folder named *cordova-hotel-finder-native* alongside the *HotelFinder-Ionic* folder.
-. Create a new file at *cordova-hotel-finder-native/plugin.xml* with the following.
+. Create a folder named *cordova-plugin-hotel-lister* alongside the *HotelLister* folder.
+. Create a new file at *cordova-plugin-hotel-lister/plugin.xml* with the following.
 +
 [source,xml]
 ----
 include::{plugin}[indent=0]
 ----
-* The `id="cordova-hotel-finder-native"` is the plugin name which will be used later to import it in your HotelFinder-Ionic project.
-. Create a new file at *cordova-hotel-finder-native/package.json* with the following.
+* The `id="cordova-plugin-hotel-lister"` is the plugin name which will be used later to import it in your *HotelLister* project.
+. Create a new file at *cordova-plugin-hotel-lister/package.json* with the following.
 +
 [source,javascript]
 ----
 include::{package-json}[indent=0]
 ----
-. Create a new file at *cordova-hotel-finder-native/www/hotelfinderplugin.js*.
+. Create a new file at *cordova-plugin-hotel-lister/www/hotel-lister.js*.
 This file dictates the API by which a Cordova project may interact with this plugin.
-Generally, this means that the plugin binds to the window element and by doing so, grants access to its parent project through simple JavaScript references. Add the following to your *hotelfinderplugin.js* file:
+Generally, this means that the plugin binds to the window element and by doing so, grants access to its parent project through simple JavaScript references.
+Add the following to your *hotel-lister.js* file:
 +
 [source,javascript]
 ----
 include::{hotelfinderplugin}[indent=0]
 ----
-. In your plugin directory, create a new file at *src/android/HotelFinderPlugin.java* with the following.
+. In your plugin directory, create a new file at *src/android/HotelLister.java* with the following.
 +
 [source,java]
 ----
 include::{hotelfinderjava}[indent=0]
 ----
-. To verify that your plugin is ready to work as expected, you have to install it in your *HotelFinder-ionic* project.
+. To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands.
 +
 [source,bash]
 ----
-cd HotelFinder-Ionic
-cordova plugin add ../cordova-hotel-finder-native/
+cd HotelLister
+cordova plugin add ../cordova-plugin-hotel-lister/
 ----
 
 == Couchbase Lite Setup
