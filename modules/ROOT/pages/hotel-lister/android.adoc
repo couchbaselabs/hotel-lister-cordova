@@ -1,4 +1,4 @@
-= Build an Ionic Plugin with Couchbase Lite on iOS
+= Build an Ionic Plugin with Couchbase Lite on Android
 :plugin: {examplesdir}/cordova-hotel-finder-native/plugin.xml
 :hotelfinderplugin: {examplesdir}/cordova-hotel-finder-native/www/hotelfinderplugin.js
 :hotelfinderjava: {examplesdir}/cordova-hotel-finder-native/src/android/HotelFinderPlugin.java
