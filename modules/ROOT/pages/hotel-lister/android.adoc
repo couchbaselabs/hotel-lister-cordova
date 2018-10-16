@@ -11,7 +11,7 @@ In this tutorial, you will learn how to use Couchbase Lite in a Cordova project.
 
 The sample project is an application that allows users to display a list of hotels stored in a Couchbase Lite database.
 
-image::android_flow.jpg[]
+image::ionic-listing-hotels.png[,250]
 
 == Architecture
 
@@ -77,7 +77,10 @@ Plugins provide access to device and platform functionality that is ordinarily u
 
 In this section you will create a new plugin called *cordova-plugin-hotel-lister* to implement data persistence using Couchbase Lite's Java API.
 
-. Create a folder named *cordova-plugin-hotel-lister* alongside the *HotelLister* folder.
+The plugin code will be added to the *cordova-plugin-hotel-lister* folder which resides alongside the *HotelLister* folder.
+
+NOTE: The starter project contains a file at *cordova-plugin-hotel-lister/src/android/Utils.java* that will be used in a later section to unzip the pre-built database.
+
 . Create a new file at *cordova-plugin-hotel-lister/plugin.xml* with the following.
 +
 [source,xml]
@@ -92,19 +95,37 @@ include::{plugin}[indent=0]
 include::{package-json}[indent=0]
 ----
 . Create a new file at *cordova-plugin-hotel-lister/www/hotel-lister.js*.
-This file dictates the API by which a Cordova project may interact with this plugin.
+This file dictates the API by which a Cordova/Ionic project may interact with this plugin.
 Generally, this means that the plugin binds to the window element and by doing so, grants access to its parent project through simple JavaScript references.
 Add the following to your *hotel-lister.js* file:
 +
 [source,javascript]
 ----
-include::{hotelfinderplugin}[indent=0]
+var exec = require('cordova/exec');
+
+var hotelLister = {
+  /* code will be added here later */
+};
+
+module.exports = hotelLister;
 ----
 . In your plugin directory, create a new file at *src/android/HotelLister.java* with the following.
 +
 [source,java]
 ----
-include::{hotelfinderjava}[indent=0]
+public class HotelLister extends CordovaPlugin {
+
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+    }
+
+    @Override
+    public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) {
+        return false;
+    }
+
+}
 ----
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands.
@@ -225,7 +246,7 @@ ionic cordova run android
 ----
 . You should now see the list of hotels.
 +
-image::ionic-listing-hotels.png[,350px]
+image::ionic-listing-hotels.png[,250]
 
 == Conclusion
 
