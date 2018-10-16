@@ -63,6 +63,8 @@ public class HotelLister extends CordovaPlugin {
         Query query = QueryBuilder
             .select(
                 SelectResult.expression(Meta.id),
+                SelectResult.property("address"),
+                SelectResult.property("phone"),
                 SelectResult.property("name")
             )
             .from(DataSource.database(database))
