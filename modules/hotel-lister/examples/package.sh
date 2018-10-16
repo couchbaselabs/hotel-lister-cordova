@@ -11,6 +11,7 @@ if [[ ! -z ${1} ]]; then
 		if [ "${1}" = "starter-project" ]; then
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/src/main/assets/travel-sample.cblite2.zip"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/"
+			rm -rf "${OUTPUT_FILE}/HotelLister/plugins/"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/DatabaseManager.java"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/HotelLister.java"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/www/hotel-lister.js"
@@ -18,7 +19,9 @@ if [[ ! -z ${1} ]]; then
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/plugin.xml"
 		elif [ "${1}" = "final-project" ]; then
 			echo ""
+			rm -rf "${OUTPUT_FILE}/HotelLister/plugins/"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/build"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/build"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/.idea"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/.gradle"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/local.properties"
