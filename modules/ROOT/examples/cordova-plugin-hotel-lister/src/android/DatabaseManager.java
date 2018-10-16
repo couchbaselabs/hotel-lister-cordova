@@ -10,7 +10,7 @@ import com.couchbase.lite.FullTextIndexItem;
 import com.couchbase.lite.IndexBuilder;
 
 // tag::setup-database[]
-public class DatabaseManager3 {
+public class DatabaseManager {
 
     private static String DB_NAME = "travel-sample";
 
