@@ -13,18 +13,21 @@ if [[ ! -z ${1} ]]; then
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/DatabaseManager.java"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/HotelLister.java"
+			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/www/hotel-lister.js"
+			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/package.json"
+			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/plugin.xml"
 		elif [ "${1}" = "final-project" ]; then
 			echo ""
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/build"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/.idea"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/.gradle"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/local.properties"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/HotelLister.iml"
 		else
 			echo "Error: the output file must be called starter-project or final-project"
 		fi
 
 		rm -rf "${OUTPUT_FILE}/HotelLister/node_modules/"
-		rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/build"
-		rm -rf "${OUTPUT_FILE}/HotelFinder/platforms/android/.idea"
-		rm -rf "${OUTPUT_FILE}/HotelFinder/platforms/android/.gradle"
-		rm -rf "${OUTPUT_FILE}/HotelFinder/platforms/android/local.properties"
-		rm -rf "${OUTPUT_FILE}/HotelFinder/platforms/android/HotelFinder.iml"
 
 		echo "Zipping..."
 		ditto -c -k --sequesterRsrc --keepParent "${OUTPUT_FILE}" "${OUTPUT_FILE}.zip"
