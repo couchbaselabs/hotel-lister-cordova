@@ -10,6 +10,7 @@ if [[ ! -z ${1} ]]; then
 
 		if [ "${1}" = "starter-project" ]; then
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/src/main/assets/travel-sample.cblite2.zip"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/DatabaseManager.java"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/HotelLister.java"
 		elif [ "${1}" = "final-project" ]; then
