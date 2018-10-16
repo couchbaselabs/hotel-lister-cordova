@@ -1,4 +1,4 @@
-package com.hotelfinder;
+package com.hotellister;
 
 import android.content.Context;
 import android.content.res.AssetManager;

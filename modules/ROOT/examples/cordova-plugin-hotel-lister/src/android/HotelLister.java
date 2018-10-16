@@ -1,4 +1,4 @@
-package com.hotelfinder;
+package com.hotellister;
 
 import android.content.Context;
 
@@ -7,30 +7,23 @@ import com.couchbase.lite.DataSource;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.Expression;
 import com.couchbase.lite.Meta;
-import com.couchbase.lite.MutableArray;
-import com.couchbase.lite.MutableDocument;
 import com.couchbase.lite.Query;
 import com.couchbase.lite.QueryBuilder;
 import com.couchbase.lite.Result;
 import com.couchbase.lite.ResultSet;
 import com.couchbase.lite.SelectResult;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HotelFinderPlugin extends CordovaPlugin {
+public class HotelLister extends CordovaPlugin {
 
     private Database database;
 
