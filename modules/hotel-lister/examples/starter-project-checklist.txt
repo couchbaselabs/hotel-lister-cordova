@@ -1,7 +1,8 @@
 - Remove code in home.ts
+- Rm plugin from package.json
 
 Android:
-- Rm Couchbase from build.gradle
+
 
 iOS:
 
