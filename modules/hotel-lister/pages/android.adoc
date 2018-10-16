@@ -3,8 +3,8 @@
 :hotelfinderplugin: {examplesdir}/cordova-plugin-hotel-lister/www/hotel-lister.js
 :hotelfinderjava: {examplesdir}/cordova-plugin-hotel-lister/src/android/HotelLister.java
 :package-json: {examplesdir}/cordova-plugin-hotel-lister/package.json
-:databasemanager-java: {examplesdir}/HotelLister/platforms/android/app/src/main/java/com/hotellister/DatabaseManager.java
-:hotelfinderjava-platform: {examplesdir}/HotelLister/platforms/android/app/src/main/java/com/hotellister/HotelLister.java
+:databasemanager-java: {examplesdir}/cordova-plugin-hotel-lister/src/android/DatabaseManager.java
+:hotelfinderjava-platform: {examplesdir}/cordova-plugin-hotel-lister/src/android/HotelLister.java
 :home-ts: {examplesdir}/HotelLister/src/pages/home/home.ts
 
 In this tutorial, you will learn how to use Couchbase Lite in a Cordova project.
@@ -26,9 +26,9 @@ image::arch-android.jpg[,400]
 == Data Model
 
 The data model for the app is very straightforward.
-There is one type of documents:
+There is one type of document:
 the _"hotel"_ document which contains the details of each hotel.
-Those documents have `"type": "hotel"` property.
+Those documents have a `"type": "hotel"` property.
 
 == Pre-requisites
 
@@ -45,28 +45,34 @@ The tutorial also assumes that the reader has a basic understanding of developin
 *The User Interface has already been implemented in the starter project.
 You will add the code to persist and query data.*
 
+. Install the Ionic and Cordova CLIs.
++
+[source,bash]
+----
+npm install -g ionic cordova
+----
 . Download the link:{attachmentsdir}/starter-project.zip[starter project].
 . Unzip *starter-project.zip*.
-. Open the *starter-project/HotelLister/* directory in the JavaScript editor of your choice (for example, https://code.visualstudio.com/[Visual Studio Code] or https://www.jetbrains.com/webstorm/[WebStorm]).
+. Open the *starter-project/* directory in the JavaScript editor of your choice (for example, https://code.visualstudio.com/[Visual Studio Code] or https://www.jetbrains.com/webstorm/[WebStorm]).
 . The User Interface code is located in *HotelLister/src/pages/home/*.
 . Run the following commands in your Terminal.
 +
 [source,bash]
 ----
-npm install -g ionic cordova
 cd HotelLister
-npm install <1>
+npm install
 ----
-<1> The `npm install` command installs dependencies.
-. To deploy the app on an Android emulator, run the following.
+The `npm install` command installs dependencies.
+. To deploy the app to an Android emulator, run the following.
 +
 [source,bash]
 ----
 ionic cordova run android
 ----
 NOTE: If you get the following error message "Could not find an installed version of Gradle either in Android Studio, or on your system to install the gradle wrapper." you can install Gradle using Homebrew with `brew install gradle`.
-. You can click on the *Hotels* button to run a search query.
-The result of the query will be empty.
+. You should see an empty list view as shown below.
++
+image::ionic-listing-hotels.png[,250]
 
 In the next section, you will setup the Cordova plugin which is the first step for establishing communication between native code and JavaScript.
 
@@ -79,7 +85,7 @@ In this section you will create a new plugin called *cordova-plugin-hotel-lister
 
 The plugin code will be added to the *cordova-plugin-hotel-lister* folder which resides alongside the *HotelLister* folder.
 
-NOTE: The starter project contains a file at *cordova-plugin-hotel-lister/src/android/Utils.java* that will be used in a later section to unzip the pre-built database.
+The starter project contains a file at *cordova-plugin-hotel-lister/src/android/Utils.java* that will be used in a later section to unzip the pre-built database.
 
 . Create a new file at *cordova-plugin-hotel-lister/plugin.xml* with the following.
 +
@@ -87,7 +93,9 @@ NOTE: The starter project contains a file at *cordova-plugin-hotel-lister/src/an
 ----
 include::{plugin}[indent=0]
 ----
-* The `id="cordova-plugin-hotel-lister"` is the plugin name which will be used later to import it in your *HotelLister* project.
+* The `id="cordova-plugin-hotel-lister"` attribute is the plugin name which will be used later to import it in the Ionic project.
+* The `<js-module></js-module>` XML tag declares the location of the file that will declare the JavaScript interface.
+* The `<platform name="android"></platform>` XML tag declares the location of the Java files to hold the native code.
 . Create a new file at *cordova-plugin-hotel-lister/package.json* with the following.
 +
 [source,javascript]
@@ -109,7 +117,7 @@ var hotelLister = {
 
 module.exports = hotelLister;
 ----
-. In your plugin directory, create a new file at *src/android/HotelLister.java* with the following.
+. Create a new file at *cordova-plugin-hotel-lister/src/android/HotelLister.java* with the following.
 +
 [source,java]
 ----
@@ -133,14 +141,13 @@ To do so, run the following commands.
 [source,bash]
 ----
 cd HotelLister
-cordova plugin rm cordova-plugin-hotel-lister
 cordova plugin add ../cordova-plugin-hotel-lister/
 ----
 
 == Couchbase Lite Setup
 
-. Add the following in the `dependencies` section of the application’s *build.gradle* (the one in the *app* folder).
-+
+Add the following in the `dependencies` section of *HotelLister/platforms/android/app/build.gradle*.
+
 [source,java]
 ----
 implementation 'com.couchbase.lite:couchbase-lite-android:2.1.0'
@@ -219,10 +226,10 @@ include::{hotelfinderjava-platform}[tag=execute,indent=0]
 +
 [source,javascript]
 ----
-include::{hotelfinderplugin}/[tag=query-hotels,indent=0]
+include::{hotelfinderplugin}[tag=query-hotels,indent=0]
 ----
 . You can now call the `queryHotels` method in the Ionic project.
-Add the following to the `constructor` method in *home.ts*.
+Add the following to the `constructor` method in *HotelLister/src/pages/home/home.ts*.
 +
 [source,javascript]
 ----
@@ -249,7 +256,6 @@ image::ionic-listing-hotels.png[,250]
 
 == Conclusion
 
-*Well done!* You have learned how to import Couchbase Lite in an Ionic project, and how to add search and persistence functionalities to your application!
+*Well done!* You have learned how to create a Cordova plugin to use Couchbase Lite's native APIs and import the plugin in an Ionic project!
 
-You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file. To build and run the final project, follow the instructions outlined in the *Getting Started* section.
-The final project also implements the missing functionalities mentioned above.
+You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file. To build and run the final project, follow the instructions outlined in the <<getting-started,Getting Started>> section.
