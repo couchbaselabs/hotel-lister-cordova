@@ -9,6 +9,10 @@ if [[ ! -z ${1} ]]; then
 		echo "Clean... ${1}"
 
 		if [ "${1}" = "starter-project" ]; then
+			cd "${OUTPUT_FILE}/HotelLister"
+			cd "${OUTPUT_FILE}/HotelLister"
+			cordova plugin rm cordova-plugin-hotel-lister
+			cd ../..
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/src/main/assets/travel-sample.cblite2.zip"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/"
 			rm -rf "${OUTPUT_FILE}/HotelLister/plugins/"
