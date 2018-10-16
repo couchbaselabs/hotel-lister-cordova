@@ -1,0 +1,13 @@
+- Remove code in home.ts
+
+Android:
+- Rm DatabaseManager.java
+- Rm HotelFinderNative.java
+- Rm HotelFinderPackage.java
+- Rm call in `getPackages` of MainApplication.java
+- Rm Couchbase from build.gradle
+
+iOS:
+
+
+- Run package.sh script
