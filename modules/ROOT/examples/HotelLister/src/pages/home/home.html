@@ -9,7 +9,9 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let hotel of hotels">
-      {{hotel.name}}
+      <h2>{{hotel.name}}</h2>
+      <p>{{hotel.address}}</p>
+      <h3 ion-text color="primary">{{hotel.phone}}</h3>
     </ion-item>
   </ion-list>
 </ion-content>
