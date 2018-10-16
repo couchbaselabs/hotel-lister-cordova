@@ -167,19 +167,18 @@ The `createIndex` method creates the Full-Text Search index on the `description`
 ----
 include::{databasemanager-java}[tag=setup-database,indent=0]
 ----
-. Next, add the following properties in *HotelFinderPlugin.java*.
+. Next, add the following instance variable in *HotelLister.java*.
 +
 [source,java]
 ----
 private Database database;
 ----
-. Finally, update the `initialize` method in *HotelFinderPlugin.java* with the following.
+. Then, update the `initialize` method in *HotelLister.java* with the following to set the `database` instance property.
 +
 [source,java]
 ----
 include::{hotelfinderjava-platform}[tag=initialize,indent=0]
 ----
-This code adds the database as an instance property on the `HotelFinderNative` class.
 . To test your changes, you must re-install the Cordova plugin from *cordova-plugin-hotel-lister* to *HotelLister*.
 Run the following commands.
 +
@@ -203,27 +202,27 @@ In the next section, you will use this instance variable to query hotels from th
 
 In this section, you will add the functionality to list hotels from the database.
 
-. Insert a new method called `queryHotels` in *HotelFinderPlugin.java*.
+. Insert a new method called `queryHotels` in *cordova-plugin-hotel-lister/src/android/HotelLister.java*.
 +
 [source,java]
 ----
 include::{hotelfinderjava-platform}[tag=query-hotels,indent=0]
 ----
-To query bookmark documents, you will write a JOIN query between the document of type `bookmarkedhotels` which contains hotel Ids and documents of type `hotels` which contain all the other fields (`name`, `address`, `phone` etc.)
-. Call this method from the `execute` method in *HotelFinderPlugin.java*.
+This code queries documents where the `type` property is `hotel`.
+. Call this method from the `execute` method in *cordova-plugin-hotel-lister/src/android/HotelLister.java*.
 +
 [source,java]
 ----
 include::{hotelfinderjava-platform}[tag=execute,indent=0]
 ----
-. On the JavaScript side, you must first import the `HotelFinderNative` ReactNative module.
-Add the following to the top of *home.ts*.
+. Next, you will update the plugin's JavaScript interface. In *cordova-plugin-hotel-lister/www/hotel-lister.js*, replace `/* code will be added here later */` with the following.
 +
 [source,javascript]
 ----
-declare var window: any;
+include::{hotelfinderplugin}/[tag=query-hotels,indent=0]
 ----
-. You can now call the `queryBookmarkDocuments` native method from *Bookmarks.js*. Add the following text to the `constructor` method in *home.ts*.
+. You can now call the `queryHotels` method in the Ionic project.
+Add the following to the `constructor` method in *home.ts*.
 +
 [source,javascript]
 ----
