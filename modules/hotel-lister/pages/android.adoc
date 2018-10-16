@@ -91,7 +91,37 @@ The starter project contains a file at *cordova-plugin-hotel-lister/src/android/
 +
 [source,xml]
 ----
-include::{plugin}[indent=0]
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-hotel-lister" version="0.0.1">
+  <name>cordova-plugin-hotel-lister</name>
+  <description>An Cordova plugin for the Hotel Lister application to implement data persistence using Couchbase Lite.</description>
+  <license>Couchbase CE / https://www.couchbase.com/binaries/content/assets/website/legal/ce-license-agreement.pdf</license>
+
+  <engines>
+    <engine name="cordova" version=">=3.0.0"/>
+  </engines>
+
+  <js-module src="www/hotel-lister.js" name="HotelLister">
+    <clobbers target="window.plugins.HotelLister" />
+  </js-module>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="HotelLister">
+        <param name="android-package" value="com.hotellister.HotelLister"/>
+      </feature>
+    </config-file>
+
+    <source-file
+            src="src/android/HotelLister.java"
+            target-dir="src/com/hotellister/" />
+    <source-file
+            src="src/android/Utils.java"
+            target-dir="src/com/hotellister/" />
+  </platform>
+</plugin>
 ----
 * The `id="cordova-plugin-hotel-lister"` attribute is the plugin name which will be used later to import it in the Ionic project.
 * The `<js-module></js-module>` XML tag declares the location of the file that will declare the JavaScript interface.
@@ -174,6 +204,15 @@ The `createIndex` method creates the Full-Text Search index on the `description`
 ----
 include::{databasemanager-java}[tag=setup-database,indent=0]
 ----
+. When adding a new Java file, it must be referenced in the plugin's configuration file.
+Insert the following as a child to the `<platform name="android"></platform>` element in *cordova-plugin-hotel-lister/plugin.xml*.
++
+[source,xml]
+----
+<source-file
+        src="src/android/DatabaseManager.java"
+        target-dir="src/com/hotellister/" />
+----
 . Next, add the following instance variable in *HotelLister.java*.
 +
 [source,java]
@@ -216,7 +255,9 @@ In this section, you will add the functionality to list hotels from the database
 include::{hotelfinderjava-platform}[tag=query-hotels,indent=0]
 ----
 This code queries documents where the `type` property is `hotel`.
-. Call this method from the `execute` method in *cordova-plugin-hotel-lister/src/android/HotelLister.java*.
+. You can now call this method from the `execute` method in *cordova-plugin-hotel-lister/src/android/HotelLister.java*.
++
+Whatever is dispatched to the plugin with JavaScript's exec function is passed into the plugin class's execute method.
 +
 [source,java]
 ----
