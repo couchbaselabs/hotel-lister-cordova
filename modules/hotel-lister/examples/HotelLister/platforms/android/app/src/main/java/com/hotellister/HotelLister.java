@@ -51,10 +51,6 @@ public class HotelLister extends CordovaPlugin {
             JSONArray jsonArray = new JSONArray(arrayList);
             callbackContext.success(jsonArray);
             return true;
-        } else if ("replicateDocuments".equals(action)) {
-            // code to replicate
-        } else {
-
         }
         return false;
     }
