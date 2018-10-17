@@ -23,7 +23,6 @@ if [[ ! -z ${1} ]]; then
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/plugin.xml"
 		elif [ "${1}" = "final-project" ]; then
 			echo ""
-			rm -rf "${OUTPUT_FILE}/HotelLister/plugins/"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/build"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/build"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/.idea"
