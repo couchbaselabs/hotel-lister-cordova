@@ -72,7 +72,7 @@ ionic cordova run android
 NOTE: If you get the following error message "Could not find an installed version of Gradle either in Android Studio, or on your system to install the gradle wrapper." you can install Gradle using Homebrew with `brew install gradle`.
 . You should see an empty list view as shown below.
 +
-image::ionic-listing-hotels.png[,250]
+image::ionic-empty-list.png[,250]
 
 In the next section, you will setup the Cordova plugin which is the first step for establishing communication between native code and JavaScript.
 
