@@ -28,17 +28,6 @@ public class DatabaseManager {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-        this.createIndexes();
-    }
-
-    private void createIndexes() {
-        try {
-            FullTextIndexItem item = FullTextIndexItem.property("description");
-            FullTextIndex index = IndexBuilder.fullTextIndex(item);
-            database.createIndex("descFTSIndex", index);
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
     }
 
     public static DatabaseManager getSharedInstance(Context context) {
