@@ -7,17 +7,17 @@
 :hotelfinderjava-platform: {examplesdir}/cordova-plugin-hotel-lister/src/android/HotelLister.java
 :home-ts: {examplesdir}/HotelLister/src/pages/home/home.ts
 
-In this tutorial, you will learn how to use Couchbase Lite in a Cordova project.
+In this tutorial, you will learn how to use Couchbase Lite in a Cordova application.
 
-The sample project is an application that allows users to display a list of hotels stored in a Couchbase Lite database.
+The sample project is a Cordova web application that allows users to query for and display a list of hotels stored in a Couchbase Lite database.
 
 image::ionic-listing-hotels.png[,250]
 
 == Architecture
 
-The user Interface is written in JavaScript while the business logic and data model is written in native Java.
+The user Interface is a web app written in Javascript using Ionic and is rendered within a WebView. The business logic and data model is written in native Java.
 The data model uses Couchbase Lite as the embedded data persistence layer.
-The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript layer and the native Java layer.
+The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript and the native Java worlds . The plugin exposes a Javascript API to the web app.
 
 This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native Android framework for data management.
 
@@ -30,13 +30,15 @@ There is one type of document:
 the _"hotel"_ document which contains the details of each hotel.
 Those documents have a `"type": "hotel"` property.
 
+image::data-model.png[,400]
+
 == Pre-requisites
 
 This tutorial requires the following components and versions to run successfully.
 
 * Android Studio 3.0 or above
 * Android SDK 19 or above
-* Couchbase Lite 2.1.1
+* Couchbase Lite 2.1.0 and above
 
 The tutorial also assumes that the reader has a basic understanding of developing apps with Cordova and Java.
 
@@ -45,7 +47,7 @@ The tutorial also assumes that the reader has a basic understanding of developin
 *The User Interface has already been implemented in the starter project.
 You will add the code to persist and query data.*
 
-. Install the Ionic and Cordova CLIs.
+. Install the Ionic and Cordova CLIs which are tools that are required for building and managing Ionic and Cordova based apps.
 +
 [source,bash]
 ----
@@ -132,8 +134,9 @@ The starter project contains a file at *cordova-plugin-hotel-lister/src/android/
 ----
 include::{package-json}[indent=0]
 ----
+This file describes the plugin.
 . Create a new file at *cordova-plugin-hotel-lister/www/hotel-lister.js*.
-This file dictates the API by which a Cordova/Ionic project may interact with this plugin.
+This file defines the JS API with which a Cordova/Ionic web app may interact with this plugin.
 Generally, this means that the plugin binds to the window element and by doing so, grants access to its parent project through simple JavaScript references.
 Add the following to your *hotel-lister.js* file:
 +
@@ -147,7 +150,7 @@ var hotelLister = {
 
 module.exports = hotelLister;
 ----
-. Create a new file at *cordova-plugin-hotel-lister/src/android/HotelLister.java* with the following.
+. Create a new file at *cordova-plugin-hotel-lister/src/android/HotelLister.java* with the following. This file provides the native Java implementation corresponding to the APIs defined in *hotel-lister.js*.
 +
 [source,java]
 ----
@@ -166,12 +169,19 @@ public class HotelLister extends CordovaPlugin {
 }
 ----
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
-To do so, run the following commands.
+To do so, run the following commands from the root of the *starter-project* folder.
 +
 [source,bash]
 ----
 cd HotelLister
 cordova plugin add ../cordova-plugin-hotel-lister/
+----
+
+If successful, you should the following output
++[source,bash]
+----
+Adding cordova-plugin-hotel-lister to package.json
+Saved plugin info for "cordova-plugin-hotel-lister" to config.xml
 ----
 
 == Couchbase Lite Setup
@@ -180,7 +190,14 @@ Add the following in the `dependencies` section of *HotelLister/platforms/androi
 
 [source,java]
 ----
-implementation 'com.couchbase.lite:couchbase-lite-android:2.1.0'
+dependencies {
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    // SUB-PROJECT DEPENDENCIES START
+    implementation(project(path: ":CordovaLib"))
+    compile "com.android.support:support-annotations:27.+"
+    // SUB-PROJECT DEPENDENCIES END
+    implementation 'com.couchbase.lite:couchbase-lite-android:2.1.0'
+}
 ----
 
 == Database Setup
@@ -192,18 +209,18 @@ Note that in a real world application, the data could be synced down from other 
 The pre-built database needs to be added to the Android Studio project.
 
 . Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over to *HotelLister/platforms/android/app/src/main/assets/*.
-. You will use the singleton pattern to setup the database instance.
+. We will use the singleton pattern to setup the database instance.
 Create a new file at *cordova-plugin-hotel-lister/src/android/DatabaseManager.java* and insert the following.
-+
-In this code, you first check if a database named "travel-sample" exists.
-If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
-The database is then opened and the instance is set.
-The `createIndex` method creates the Full-Text Search index on the `description` property.
 +
 [source,java]
 ----
 include::{databasemanager-java}[tag=setup-database,indent=0]
 ----
++
+You first check if a database named "travel-sample" exists.
+If it doesn't exist, *the travel-sample.cblite2* database file that was bundled with the app is copied to the default Couchbase Lite directory.
+The database is then opened and the database instance is set.
++
 . When adding a new Java file, it must be referenced in the plugin's configuration file.
 Insert the following as a child to the `<platform name="android"></platform>` element in *cordova-plugin-hotel-lister/plugin.xml*.
 +
@@ -226,7 +243,7 @@ private Database database;
 include::{hotelfinderjava-platform}[tag=initialize,indent=0]
 ----
 . To test your changes, you must re-install the Cordova plugin from *cordova-plugin-hotel-lister* to *HotelLister*.
-Run the following commands.
+Run the following commands from the root of the *starter-project* folder.
 +
 [source,bash]
 ----
@@ -242,7 +259,7 @@ ionic cordova run android
 ----
 The application should run successfully.
 
-In the next section, you will use this instance variable to query hotels from the pre-built database.
+In the next section, you will use this Database variable to query hotels from the pre-built database.
 
 == Listing Hotels
 
@@ -277,7 +294,7 @@ Add the following to the `constructor` method in *HotelLister/src/pages/home/hom
 include::{home-ts}[tag=query-hotels,indent=0]
 ----
 . To test your changes, you must re-install the Cordova plugin from *cordova-plugin-hotel-lister* to *HotelLister*.
-Run the following commands.
+Run the following commands from the root of the *start-project* folder
 +
 [source,bash]
 ----
