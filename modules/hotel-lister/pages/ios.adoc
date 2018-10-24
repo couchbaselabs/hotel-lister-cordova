@@ -1,0 +1,1 @@
+ionic cordova emulate ios -- --buildFlag="-UseModernBuildSystem=0"
