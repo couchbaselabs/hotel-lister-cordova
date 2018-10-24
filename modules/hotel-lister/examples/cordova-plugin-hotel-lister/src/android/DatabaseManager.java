@@ -1,3 +1,4 @@
+// tag::setup-database[]
 package com.hotellister;
 
 import android.content.Context;
@@ -9,7 +10,6 @@ import com.couchbase.lite.FullTextIndex;
 import com.couchbase.lite.FullTextIndexItem;
 import com.couchbase.lite.IndexBuilder;
 
-// tag::setup-database[]
 public class DatabaseManager {
 
     private static String DB_NAME = "travel-sample";
