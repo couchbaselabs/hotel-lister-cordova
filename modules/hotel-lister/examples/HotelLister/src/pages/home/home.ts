@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 declare var window: any;
 
 @Component({
@@ -9,15 +9,15 @@ declare var window: any;
 export class HomePage {
   hotels: any[];
 
-  constructor(public navCtrl: NavController) {
-
+  constructor(public platform: Platform) {
     // tag::query-hotels[]
-    window.plugins.HotelLister.queryHotels((hotels) => {
-      console.log(hotels);
-      this.hotels = hotels;
+    this.platform.ready().then(() => {
+      window.plugins.HotelLister.queryHotels((hotels) => {
+        console.log(hotels);
+        this.hotels = hotels;
+      });
     });
     // end::query-hotels[]
-
   }
 
 }
