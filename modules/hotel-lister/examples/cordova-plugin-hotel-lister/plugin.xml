@@ -40,6 +40,8 @@
     </config-file>
   
     <source-file
+            src="src/ios/DatabaseManager.swift"/>
+    <source-file
             src="src/ios/HotelLister.swift"/>
   </platform>
 </plugin>
