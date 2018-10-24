@@ -19,9 +19,6 @@
       <feature name="HotelLister">
         <param name="android-package" value="com.hotellister.HotelLister"/>
       </feature>
-      <feature name="HotelLister">
-        <param name="ios-package" value="HotelLister"/>
-      </feature>
     </config-file>
   
     <source-file
@@ -33,6 +30,15 @@
     <source-file
             src="src/android/Utils.java"
             target-dir="src/com/hotellister/" />
+  </platform>
+  
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="HotelLister">
+        <param name="ios-package" value="HotelLister"/>
+      </feature>
+    </config-file>
+  
     <source-file
             src="src/ios/HotelLister.swift"/>
   </platform>
