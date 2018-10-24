@@ -66,7 +66,8 @@ module.exports.metadata =
   "cordova-plugin-ionic-webview": "2.2.0",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
-  "cordova-plugin-whitelist": "1.3.3"
+  "cordova-plugin-whitelist": "1.3.3",
+  "cordova-plugin-add-swift-support": "1.7.2"
 };
 // BOTTOM OF METADATA
 });

@@ -58,7 +58,8 @@ module.exports.metadata =
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-ionic-webview": "2.2.0",
   "cordova-plugin-ionic-keyboard": "2.1.3",
-  "cordova-plugin-hotel-lister": "0.0.1"
+  "cordova-plugin-hotel-lister": "0.0.1",
+  "cordova-plugin-add-swift-support": "1.7.2"
 };
 // BOTTOM OF METADATA
 });
