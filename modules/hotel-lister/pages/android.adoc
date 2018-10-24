@@ -176,9 +176,9 @@ To do so, run the following commands from the root of the *starter-project* fold
 cd HotelLister
 cordova plugin add ../cordova-plugin-hotel-lister/
 ----
-
-If successful, you should the following output
-+[source,bash]
+If successful, you should the following output.
++
+[source,bash]
 ----
 Adding cordova-plugin-hotel-lister to package.json
 Saved plugin info for "cordova-plugin-hotel-lister" to config.xml
