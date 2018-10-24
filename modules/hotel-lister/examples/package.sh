@@ -10,10 +10,8 @@ if [[ ! -z ${1} ]]; then
 
 		if [ "${1}" = "starter-project" ]; then
 			cd "${OUTPUT_FILE}/HotelLister"
-			cd "${OUTPUT_FILE}/HotelLister"
 			cordova plugin rm cordova-plugin-hotel-lister
 			cd ../..
-			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/app/src/main/assets/travel-sample.cblite2.zip"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/"
 			rm -rf "${OUTPUT_FILE}/HotelLister/plugins/"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/DatabaseManager.java"
@@ -29,6 +27,7 @@ if [[ ! -z ${1} ]]; then
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/.gradle"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/local.properties"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/HotelLister.iml"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/ios/Frameworks/CouchbaseLiteSwift.framework"
 		else
 			echo "Error: the output file must be called starter-project or final-project"
 		fi
