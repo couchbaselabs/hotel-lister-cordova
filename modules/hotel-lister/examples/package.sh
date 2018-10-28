@@ -30,6 +30,7 @@ if [[ ! -z ${1} ]]; then
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/local.properties"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/android/HotelLister.iml"
 			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/ios/Frameworks/CouchbaseLiteSwift.framework"
+			rm -rf "${OUTPUT_FILE}/HotelLister/platforms/ios/build/"
 		else
 			echo "Error: the output file must be called starter-project or final-project"
 		fi
