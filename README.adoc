@@ -1,0 +1,36 @@
+= Installation
+
+. Clone the repo
++
+[source,bash]
+----
+git clone https://github.com/couchbaselabs/hotel-lister-cordova
+----
+
+. Run the following commands in your Terminal.
++
+[source,bash]
+----
+cd modules/ROOT/examples/HotelLister
+npm install -g ionic cordova
+npm install
+----
+. Run the application on the iOS or Android simulator.
+First, you can list available simulators with the following command.
++
+[source,bash]
+----
+ionic cordova emulate --list
+----
+Then, use the `--target` option to specify the simulator to deploy the app to.
++
+[source,bash]
+----
+ionic cordova emulate ios --target "iPhone-XR, 12.0" -- --buildFlag="-UseModernBuildSystem=0"
+# or
+ionic cordova emulate android
+----
+. You should see the following appear on the simulator.
++
+image::modules/hotel-lister/assets/images/ionic-listing-hotels.png[,250]
+NOTE: On iOS, you will need to download Couchbase Lite from https://www.couchbase.com/downloads[couchbase.com/downloads] and drag *CouchbaseLiteSwift.framework* to the Xcode project under *platforms/ios/Frameworks*.
