@@ -28,17 +28,8 @@ class DatabaseManager {
         }
         do {
             self.database = try Database(name: "travel-sample")
-            self.createIndex(database)
         } catch {
             fatalError("Could not copy database")
-        }
-    }
-
-    func createIndex(_ database: Database) {
-        do {
-            try database.createIndex(IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("description")).ignoreAccents(false), withName: "descFTSIndex")
-        } catch {
-            print(error)
         }
     }
 
