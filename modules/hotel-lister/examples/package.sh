@@ -16,6 +16,8 @@ if [[ ! -z ${1} ]]; then
 			rm -rf "${OUTPUT_FILE}/HotelLister/plugins/"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/DatabaseManager.java"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/android/HotelLister.java"
+			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/ios/DatabaseManager.swift"
+			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/src/ios/HotelLister.swift"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/www/hotel-lister.js"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/package.json"
 			rm -rf "${OUTPUT_FILE}/cordova-plugin-hotel-lister/plugin.xml"

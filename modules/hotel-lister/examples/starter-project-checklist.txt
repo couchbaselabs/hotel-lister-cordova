@@ -1,5 +1,4 @@
 - Remove code in home.ts
-- Rm plugin from package.json
 
 Android:
 
