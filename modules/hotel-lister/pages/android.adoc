@@ -69,7 +69,7 @@ The `npm install` command installs dependencies.
 +
 [source,bash]
 ----
-ionic cordova run android
+ionic cordova emulate android
 ----
 NOTE: If you get the following error message "Could not find an installed version of Gradle either in Android Studio, or on your system to install the gradle wrapper." you can install Gradle using Homebrew with `brew install gradle`.
 . You should see an empty list view as shown below.
@@ -182,7 +182,8 @@ public class HotelLister extends CordovaPlugin {
 
 }
 ----
-Link to lifecycle doc https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#plugin-initialization-and-lifetime
+Those methods are called when the Cordova plugin is initialized.
+Refer to the https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#plugin-initialization-and-lifetime[Plugin Lifecycle documentation] for more details.
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands from the root of the *starter-project* folder.
 +
@@ -191,7 +192,7 @@ To do so, run the following commands from the root of the *starter-project* fold
 cd HotelLister
 cordova plugin add ../cordova-plugin-hotel-lister/
 ----
-If successful, you should the following output.
+If successful, you should see the following in the output.
 +
 [source,bash]
 ----
@@ -201,9 +202,9 @@ Saved plugin info for "cordova-plugin-hotel-lister" to config.xml
 
 == Couchbase Lite Setup
 
-Add the following in the `dependencies` section of *HotelLister/platforms/android/app/build.gradle*.
+To import Couchbase Lite in the Android Studio project, add it as a gradle dependency in the `dependencies` section of *HotelLister/platforms/android/app/build.gradle*.
 
-[source,java]
+[source,groovy]
 ----
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
@@ -285,7 +286,7 @@ cordova plugin add ../cordova-plugin-hotel-lister/
 +
 [source,bash]
 ----
-ionic cordova run android
+ionic cordova emulate android
 ----
 The application should run successfully.
 
@@ -310,7 +311,7 @@ Whatever is dispatched to the plugin with JavaScript's exec function is passed i
 ----
 include::{hotelfinderjava-platform}[tag=execute,indent=0]
 ----
-. Next, you will update the plugin's JavaScript interface. In *cordova-plugin-hotel-lister/www/hotel-lister.js*, replace `/* code will be added here later */` with the following.
+. Next, you will update the plugin's JavaScript interface. In *cordova-plugin-hotel-lister/www/hotel-lister.js*, replace the `/* code will be added here later */` comment with the following.
 +
 [source,javascript]
 ----
@@ -336,7 +337,7 @@ cordova plugin add ../cordova-plugin-hotel-lister/
 +
 [source,bash]
 ----
-ionic cordova run android
+ionic cordova emulate android
 ----
 . You should now see the list of hotels.
 +
