@@ -165,7 +165,8 @@ import CouchbaseLiteSwift
 
 }
 ----
-Link to lifecycle doc https://cordova.apache.org/docs/en/latest/guide/platforms/ios/plugin.html#plugin-initialization-and-lifetime
+Those methods are called when the Cordova plugin is initialized.
+Refer to the https://cordova.apache.org/docs/en/latest/guide/platforms/ios/plugin.html#plugin-initialization-and-lifetime[Plugin Lifecycle documentation] for more details.
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands from the root of the *starter-project* folder.
 +
@@ -176,7 +177,7 @@ cordova platform rm ios
 cordova plugin add ../cordova-plugin-hotel-lister/
 cordova platform add ios
 ----
-If successful, you should the following output.
+If successful, you should see the following in the output.
 +
 [source,bash]
 ----
