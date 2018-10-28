@@ -15,9 +15,9 @@ image::ionic-listing-hotels-ios.png[,250]
 
 == Architecture
 
-The user Interface is a web app written in Javascript using Ionic and is rendered within a WebView. The business logic and data model is written in native Java.
+The user Interface is a web app written in Javascript using Ionic and is rendered within a WebView. The business logic and data model is written in native Swift.
 The data model uses Couchbase Lite as the embedded data persistence layer.
-The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript and the native Java worlds . The plugin exposes a Javascript API to the web app.
+The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript and the native Swift worlds . The plugin exposes a Javascript API to the web app.
 
 This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native iOS framework for data management.
 
@@ -65,13 +65,19 @@ cd HotelLister
 npm install
 ----
 The `npm install` command installs dependencies.
-. To deploy the app to an Android emulator, run the following.
+. To deploy the app to an iOS simulator, run the following.
 +
 [source,bash]
 ----
-ionic cordova emulate ios -- --buildFlag="-UseModernBuildSystem=0"
+ionic cordova platform add ios
+ionic cordova emulate --list
 ----
-NOTE: If you get the following error message "Could not find an installed version of Gradle either in Android Studio, or on your system to install the gradle wrapper." you can install Gradle using Homebrew with `brew install gradle`.
+Then, use the `--target` option to specify the simulator to deploy the app to.
++
+[source,bash]
+----
+ionic cordova emulate ios --target "iPhone-XR, 12.0" -- --buildFlag="-UseModernBuildSystem=0"
+----
 . You should see an empty list view as shown below.
 +
 image::ionic-empty-list-ios.png[,250]
@@ -150,8 +156,6 @@ module.exports = hotelLister;
 +
 [source,java]
 ----
-import CouchbaseLiteSwift
-
 @objc(HotelLister) class HotelLister : CDVPlugin {
 
     override func pluginInitialize() {
@@ -187,8 +191,12 @@ Saved plugin info for "cordova-plugin-hotel-lister" to config.xml
 
 == Couchbase Lite Setup
 
+Next, you will import Couchbase Lite as a dependency in the Xcode project.
+
 . Download Couchbase Lite from https://www.couchbase.com/downloads[here].
-. Unzip the file and drag *CouchbaseLiteSwift.framework* to the *Frameworks* folder in the Xcode project navigator.
+. Unzip the file.
+. Open the Xcode project located at *HotelLister/platforms/ios/HotelLister.xcodeproj*.
+. Drag *CouchbaseLiteSwift.framework* from the downloaded folder to the Xcode project navigator. Be sure to select the *Copy items if needed* checkbox.
 +
 image::drag-framework.png[]
 . Navigate to *Project > General > Embedded Binary* and drag *CouchbaseLiteSwift.framework* over the list.
@@ -203,10 +211,12 @@ Note that in a real world application, the data could be synced down from other 
 
 The pre-built database needs to be added to the Xcode project.
 
-. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
+. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip].
+. Unzip it.
+. Drag it over the Xcode project navigator.
 Be sure to select the *Copy items if needed* checkbox.
 . We will use the singleton pattern to setup the database instance.
-Create a new file at *cordova-plugin-hotel-lister/src/android/DatabaseManager.java* and insert the following.
+Create a new file at *cordova-plugin-hotel-lister/src/ios/DatabaseManager.swift* and insert the following.
 +
 [source,swift]
 ----
@@ -218,25 +228,26 @@ If it doesn't exist, *the travel-sample.cblite2* database file that was bundled 
 The database is then opened and the database instance is set.
 +
 . When adding a new Java file, it must be referenced in the plugin's configuration file.
-Insert the following as a child to the `<platform name="android"></platform>` element in *cordova-plugin-hotel-lister/plugin.xml*.
+Insert the following as a child to the `<platform name="ios"></platform>` element in *cordova-plugin-hotel-lister/plugin.xml*.
 +
 [source,xml]
 ----
 <source-file
 	src="src/ios/DatabaseManager.swift"/>
 ----
-. Next, add the following instance variable in *HotelLister.swift*.
+. Next, add the following import statement to the top of *HotelLister.swift*.
++
+[source]
+----
+import CouchbaseLiteSwift
+----
+Add the following instance variable in *HotelLister.swift*.
 +
 [source]
 ----
 var database: Database?
 ----
 Import the Couchbase Lite framework in *HotelLister.swift*.
-+
-[source]
-----
-import CouchbaseLiteSwift
-----
 . Then, update the `pluginInitialize()` method in *HotelLister.swift* with the following to set the `database` instance property.
 +
 [source,java]
@@ -292,15 +303,14 @@ Run the following commands from the root of the *start-project* folder
 [source,bash]
 ----
 cd HotelLister
-cordova platform rm ios
+cordova plugin rm cordova-plugin-hotel-lister
 cordova plugin add ../cordova-plugin-hotel-lister/
-cordova platform add ios
 ----
 . Build and run.
 +
 [source,bash]
 ----
-ionic cordova emulate ios -- --buildFlag="-UseModernBuildSystem=0"
+ionic cordova emulate ios --target "iPhone-XR, 12.0" -- --buildFlag="-UseModernBuildSystem=0"
 ----
 . You should now see the list of hotels.
 +
