@@ -272,7 +272,7 @@ In the next section, you will use this Database variable to query hotels from th
 
 In this section, you will add the functionality to list hotels from the database.
 
-. Add the implementation of `queryHotels` method to *cordova-plugin-hotel-lister/src/ios/HotelLister.swift*.
+. Add the implementation of the `queryHotels` method to *cordova-plugin-hotel-lister/src/ios/HotelLister.swift*.
 +
 [source,swift]
 ----
