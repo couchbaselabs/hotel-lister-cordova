@@ -163,7 +163,8 @@ module.exports = hotelLister;
     }
 }
 ----
-The Cordova Plugin is instantiated when it is refernced from the Javascipt webview app. The `pluginInitiaized()` includes the startup code.
+The Cordova Plugin is instantiated when it is first called in the JavaScipt WebView app.
+The `pluginInitialized()` method includes the startup code.
 Refer to the https://cordova.apache.org/docs/en/latest/guide/platforms/ios/plugin.html#plugin-initialization-and-lifetime[Plugin Lifecycle documentation] for more details.
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands from the root of the *starter-project* folder.
@@ -221,7 +222,7 @@ You first check if a database named "travel-sample" exists.
 If it doesn't exist, *the travel-sample.cblite2* database file that was bundled with the app is copied to the default Couchbase Lite directory.
 The database is then opened and the database instance is set.
 +
-. When adding a new swift file, it must be referenced in the plugin's configuration file.
+. When adding a new Swift file, it must be referenced in the plugin's configuration file.
 Insert the following as a child to the `<platform name="ios"></platform>` element in *cordova-plugin-hotel-lister/plugin.xml*.
 +
 [source,xml]
@@ -271,7 +272,7 @@ In the next section, you will use this Database variable to query hotels from th
 
 In this section, you will add the functionality to list hotels from the database.
 
-. Add implementation of `queryHotels` method to *cordova-plugin-hotel-lister/src/ios/HotelLister.swift*.
+. Add the implementation of `queryHotels` method to *cordova-plugin-hotel-lister/src/ios/HotelLister.swift*.
 +
 [source,swift]
 ----

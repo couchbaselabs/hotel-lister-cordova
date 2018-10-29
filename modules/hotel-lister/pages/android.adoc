@@ -182,7 +182,9 @@ public class HotelLister extends CordovaPlugin {
 
 }
 ----
-The Cordova Plugin is instantiated when it is refernced from the Javascipt webview app. The `pluginInitiaized()` includes the startup code. The `exec` method marshalls requests from the Javascipt to Android Side.
+The Cordova Plugin is instantiated when it is first called in the JavaScript WebView app.
+The `pluginInitialized()` method includes the startup code.
+The `exec` method marshals requests from the JavaScipt to the Java side.
 Refer to the https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#plugin-initialization-and-lifetime[Plugin Lifecycle documentation] for more details.
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands from the root of the *starter-project* folder.
