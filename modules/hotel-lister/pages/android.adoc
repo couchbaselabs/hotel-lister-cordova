@@ -182,7 +182,7 @@ public class HotelLister extends CordovaPlugin {
 
 }
 ----
-Those methods are called when the Cordova plugin is initialized.
+The Cordova Plugin is instantiated when it is refernced from the Javascipt webview app. The `pluginInitiaized()` includes the startup code. The `exec` method marshalls requests from the Javascipt to Android Side.
 Refer to the https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#plugin-initialization-and-lifetime[Plugin Lifecycle documentation] for more details.
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands from the root of the *starter-project* folder.
@@ -288,7 +288,7 @@ cordova plugin add ../cordova-plugin-hotel-lister/
 ----
 ionic cordova emulate android
 ----
-The application should run successfully.
+The application should run successfully. You will still see an empty screen because at this stage, the Couchbase Lite database is initialized but you haven't run any queries to fetch data from the database. 
 
 In the next section, you will use this Database variable to query hotels from the pre-built database.
 
@@ -302,7 +302,7 @@ In this section, you will add the functionality to list hotels from the database
 ----
 include::{hotelfinderjava-platform}[tag=query-hotels,indent=0]
 ----
-This code queries documents where the `type` property is `hotel`.
+This method queries for the `address`, `phone` and `name` properties of documents where the `type` property is `hotel`.
 . You can now call this method from the `execute` method in *cordova-plugin-hotel-lister/src/android/HotelLister.java*.
 +
 Whatever is dispatched to the plugin with JavaScript's exec function is passed into the plugin class's execute method.

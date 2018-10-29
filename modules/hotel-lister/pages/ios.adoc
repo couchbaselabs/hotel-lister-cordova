@@ -89,7 +89,7 @@ In the next section, you will setup the Cordova plugin which is the first step f
 With https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugins], you can write native code and have access to it from JavaScript.
 Plugins provide access to device and platform functionality that is ordinarily unavailable to web-based apps.
 
-In this section you will create a new plugin called *cordova-plugin-hotel-lister* to implement data persistence using Couchbase Lite's Java API.
+In this section you will create a new plugin called *cordova-plugin-hotel-lister* to implement data persistence using Couchbase Lite's Swift API.
 
 The plugin code will be added to the *cordova-plugin-hotel-lister* folder which resides alongside the *HotelLister* folder.
 
@@ -154,22 +154,16 @@ module.exports = hotelLister;
 ----
 . Create a new file at *cordova-plugin-hotel-lister/src/ios/HotelLister.swift* with the following. This file provides the native Swift implementation corresponding to the APIs defined in *hotel-lister.js*.
 +
-[source,java]
+[source,swift]
 ----
 @objc(HotelLister) class HotelLister : CDVPlugin {
 
     override func pluginInitialize() {
 
     }
-
-    @objc(queryHotels:)
-    func queryHotels(command: CDVInvokedUrlCommand) {
-
-    }
-
 }
 ----
-Those methods are called when the Cordova plugin is initialized.
+The Cordova Plugin is instantiated when it is refernced from the Javascipt webview app. The `pluginInitiaized()` includes the startup code.
 Refer to the https://cordova.apache.org/docs/en/latest/guide/platforms/ios/plugin.html#plugin-initialization-and-lifetime[Plugin Lifecycle documentation] for more details.
 . To verify that your plugin is ready to work as expected, you have to install it in your *HotelLister* project.
 To do so, run the following commands from the root of the *starter-project* folder.
@@ -227,7 +221,7 @@ You first check if a database named "travel-sample" exists.
 If it doesn't exist, *the travel-sample.cblite2* database file that was bundled with the app is copied to the default Couchbase Lite directory.
 The database is then opened and the database instance is set.
 +
-. When adding a new Java file, it must be referenced in the plugin's configuration file.
+. When adding a new swift file, it must be referenced in the plugin's configuration file.
 Insert the following as a child to the `<platform name="ios"></platform>` element in *cordova-plugin-hotel-lister/plugin.xml*.
 +
 [source,xml]
@@ -241,7 +235,7 @@ Insert the following as a child to the `<platform name="ios"></platform>` elemen
 ----
 import CouchbaseLiteSwift
 ----
-Add the following instance variable in *HotelLister.swift*.
+Add the following instance variable to the `HotelLister` class in *HotelLister.swift*.
 +
 [source]
 ----
@@ -250,7 +244,7 @@ var database: Database?
 Import the Couchbase Lite framework in *HotelLister.swift*.
 . Then, update the `pluginInitialize()` method in *HotelLister.swift* with the following to set the `database` instance property.
 +
-[source,java]
+[source,swift]
 ----
 include::{hotelfinderswift-platform}[tag=initialize,indent=0]
 ----
@@ -267,9 +261,9 @@ cordova plugin add ../cordova-plugin-hotel-lister/
 +
 [source,bash]
 ----
-ionic cordova emulate ios -- --buildFlag="-UseModernBuildSystem=0"
+ionic cordova emulate ios --target "iPhone-XR, 12.0" -- --buildFlag="-UseModernBuildSystem=0"
 ----
-The application should run successfully.
+The application should run successfully. You will still see an empty screen because at this stage, the Couchbase Lite database is initialized but you haven't run any queries to fetch data from the database.  
 
 In the next section, you will use this Database variable to query hotels from the pre-built database.
 
@@ -277,14 +271,14 @@ In the next section, you will use this Database variable to query hotels from th
 
 In this section, you will add the functionality to list hotels from the database.
 
-. Update the `queryHotels` method in *cordova-plugin-hotel-lister/src/ios/HotelLister.swift*.
+. Add implementation of `queryHotels` method to *cordova-plugin-hotel-lister/src/ios/HotelLister.swift*.
 +
 [source,swift]
 ----
 include::{hotelfinderswift-platform}[tag=query-hotels,indent=0]
 ----
-This code queries documents where the `type` property is `hotel`.
-. Next, you will update the plugin's JavaScript interface. In *cordova-plugin-hotel-lister/www/hotel-lister.js*, replace `/* code will be added here later */` with the following.
+This method queries for the `address`, `phone` and `name` properties of documents where the `type` property is `hotel`.
+. Next, you will update the plugin's JavaScript interface. In *cordova-plugin-hotel-lister/www/hotel-lister.js*, replace `/* code will be added here later */` with the following code snippet.
 +
 [source,javascript]
 ----
