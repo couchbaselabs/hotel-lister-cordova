@@ -314,4 +314,8 @@ image::ionic-listing-hotels-ios.png[,250]
 
 *Well done!* You have learned how to create a Cordova plugin to use Couchbase Lite's native APIs and import the plugin in an Ionic project!
 
-You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file. To build and run the final project, follow the instructions outlined in the <<getting-started,Getting Started>> section.
+You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file.
+To build and run the final project:
+
+. Follow the instructions outlined in the <<getting-started,Getting Started>> section,
+. and the instructions in the <<couchbase-lite-setup, Couchbase Lite Setup>> section to integrate Couchbase Lite into the final project.
