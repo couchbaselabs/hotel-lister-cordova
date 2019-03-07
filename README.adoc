@@ -11,7 +11,7 @@ git clone https://github.com/couchbaselabs/hotel-lister-cordova
 +
 [source,bash]
 ----
-cd modules/ROOT/examples/HotelLister
+cd modules/hotel-lister/examples/HotelLister
 npm install -g ionic cordova
 npm install
 ----
