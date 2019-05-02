@@ -1,0 +1,38 @@
+= Introduction
+:tabs:
+
+In this tutorial, you will learn how to use Couchbase Lite in a Cordova application.
+
+The sample project is a Cordova web application that allows users to query for and display a list of hotels stored in a Couchbase Lite database.
+
+
+
+[{tabs}] 
+==== 
+Android:: 
++ 
+image::ionic-listing-hotels.png[,250]
+
+iOS::
++
+image::ionic-listing-hotels-ios.png[,250] 
+====
+
+== Architecture
+
+The user Interface is a web app written in Javascript using Ionic and is rendered within a WebView. The business logic and data model is written in native Swift.
+The data model uses Couchbase Lite as the embedded data persistence layer.
+The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript and the native Swift worlds . The plugin exposes a Javascript API to the web app.
+
+This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native iOS framework for data management.
+
+image::arch-android.jpg[,400]
+
+== Data Model
+
+The data model for the app is very straightforward.
+There is one type of document:
+the _"hotel"_ document which contains the details of each hotel.
+Those documents have a `"type": "hotel"` property.
+
+image::data-model.png[,400]

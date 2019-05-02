@@ -13,25 +13,6 @@ The sample project is a Cordova web application that allows users to query for a
 
 image::ionic-listing-hotels.png[,250]
 
-== Architecture
-
-The user Interface is a web app written in Javascript using Ionic and is rendered within a WebView. The business logic and data model is written in native Java.
-The data model uses Couchbase Lite as the embedded data persistence layer.
-The https://cordova.apache.org/docs/en/latest/guide/hybrid/plugins/index.html[Cordova Plugin API] acts as the bridging layer between the JavaScript and the native Java worlds . The plugin exposes a Javascript API to the web app.
-
-This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native Android framework for data management.
-
-image::arch-android.jpg[,400]
-
-== Data Model
-
-The data model for the app is very straightforward.
-There is one type of document:
-the _"hotel"_ document which contains the details of each hotel.
-Those documents have a `"type": "hotel"` property.
-
-image::data-model.png[,400]
-
 == Pre-requisites
 
 This tutorial requires the following components and versions to run successfully.
